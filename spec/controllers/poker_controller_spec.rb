@@ -1,0 +1,94 @@
+require 'rails_helper'
+
+RSpec.describe PokerController, type: :controller do
+  describe "#index" do
+    it "responds successfully" do
+      get :index
+      expect(response).to be_success
+    end
+  end
+
+  describe "#judge" do
+    before do
+      post :judge, params: { cards: cards }
+    end
+    context "with correct params" do
+      context "Four Card" do
+        let(:cards) { "H1 S1 C1 D1 H2" }
+        it "should be Four Card" do
+          expect(assigns(:result)).to eq "Four Card"
+        end
+      end
+      context "Full House" do
+        let(:cards) { "H1 S1 C1 D2 H2" }
+        it "should be Full House" do
+          expect(assigns(:result)).to eq "Full House"
+        end
+      end
+      context "Three Card" do
+        let(:cards) { "H1 S1 C1 D3 H2" }
+        it "should be Three Card" do
+          expect(assigns(:result)).to eq "Three Card"
+        end
+      end
+      context "Two Pair" do
+        let(:cards) { "H1 S1 C13 D13 H2" }
+        it "should be Two Pair" do
+          expect(assigns(:result)).to eq "Two Pair"
+        end
+      end
+      context "One Pair" do
+        let(:cards) { "H1 S1 C13 D12 H2" }
+        it "should be One Pair" do
+          expect(assigns(:result)).to eq "One Pair"
+        end
+      end
+      context "Straight Flush" do
+        let(:cards) { "H2 H3 H4 H5 H6" }
+        it "should be Straight Flush" do
+          expect(assigns(:result)).to eq "Straight Flush"
+        end
+      end
+      context "Straight" do
+        let(:cards) { "H2 D3 C4 S5 H6" }
+        it "should be Straight" do
+          expect(assigns(:result)).to eq "Straight"
+        end
+      end
+      context "Flush" do
+        let(:cards) { "H2 H13 H4 H5 H7" }
+        it "should be Flush" do
+          expect(assigns(:result)).to eq "Flush"
+        end
+      end
+      context "High Card" do
+        let(:cards) { "H2 D3 C12 S5 H10" }
+        it "should be High Card" do
+          expect(assigns(:result)).to eq "High Card"
+        end
+      end
+    end
+    context "with incorrect params" do
+      context "with no space" do
+        let(:cards){ "H1H2H3H4H5" }
+        it "should be an error" do
+          expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+        end
+      end
+      context "with incorrect spaces" do
+        context "with 　" do
+          let(:cards){ "H1  C2 C3　C4 D13" }
+          it "should be an error" do
+            expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+          end
+        end
+      end
+      context "with same cards" do
+        let(:cards){ "D1 D1 S1 S2 S3" }
+        it "should be an error" do
+          expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+        end
+      end
+    end
+  end
+end
