@@ -1,0 +1,11 @@
+<div class = "contents">
+<div class = "form">
+  <%= form_tag("/poker", method: :post) do %>
+    <input type="text" name="cards" value="<%= @cards %>" placeholder="入力例: H1 S2 D3 C4 H5" size="30">
+    <input type="submit" value="判定する">
+  <% end %>
+</div>
+<div class="result">
+  <p><%= @result %></p>
+</div>
+</div>
