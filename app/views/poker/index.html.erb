@@ -1,4 +1,5 @@
 <div class = "contents">
+  <%= render 'layouts/flash_messages' %>
 <div class = "form">
   <%= form_tag("/poker", method: :post) do %>
     <input type="text" name="cards" value="<%= @cards %>" placeholder="入力例: H1 S2 D3 C4 H5" size="30">
