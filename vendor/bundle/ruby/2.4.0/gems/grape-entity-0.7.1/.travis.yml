@@ -1,0 +1,30 @@
+sudo: false
+
+language: ruby
+
+before_install:
+  - gem update --system
+  - gem install bundler
+
+after_success:
+  - coveralls
+  - bundle exec danger
+
+rvm:
+  - 2.5.0
+  - 2.4.3
+
+matrix:
+  fast_finish: true
+
+  include:
+    - rvm: 2.3.6
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-2
+
+  allow_failures:
+    - rvm: 2.3.6
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx-2
