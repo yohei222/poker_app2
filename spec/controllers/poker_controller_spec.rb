@@ -69,26 +69,47 @@ RSpec.describe PokerController, type: :controller do
       end
     end
     context "with incorrect params" do
-      context "with no space" do
+      context "correct_blank?" do
         let(:cards){ "H1H2H3H4H5" }
         it "should be an error" do
-          expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+          expect(flash.now[:alert]).to eq '5つのカード指定文字を半角スペース区切りで入力してください。（例："S1 H3 D9 C13 S11"）'
         end
       end
-      context "with incorrect spaces" do
-        context "with 　" do
-          let(:cards){ "H1  C2 C3　C4 D13" }
-          it "should be an error" do
-            expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
-          end
-        end
-      end
-      context "with same cards" do
-        let(:cards){ "D1 D1 S1 S2 S3" }
+      context "correct_cards?" do
+        let(:cards){ "D1 D2 S15 S2 S3" }
         it "should be an error" do
-          expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+          expect(flash.now[:alert]).to eq "半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"
+          expect(flash.now[0]).to eq "3番目のカード指定文字が不正です。（S15） "
+        end
+      end
+      context "unique_card?" do
+        let(:cards){ "H1 H1 H2 H3 S5" }
+        it "should be an error" do
+          expect(flash.now[:alert]).to eq "カードが重複しています。"
         end
       end
     end
+    # context "with incorrect params" do
+    #   context "with no space" do
+    #     let(:cards){ "H1H2H3H4H5" }
+    #     it "should be an error" do
+    #       expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+    #     end
+    #   end
+    #   context "with incorrect spaces" do
+    #     context "with 　" do
+    #       let(:cards){ "H1  C2 C3　C4 D13" }
+    #       it "should be an error" do
+    #         expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+    #       end
+    #     end
+    #   end
+    #   context "with same cards" do
+    #     let(:cards){ "D1 D1 S1 S2 S3" }
+    #     it "should be an error" do
+    #       expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
+    #     end
+    #   end
+    # end
   end
 end
