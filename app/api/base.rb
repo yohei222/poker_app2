@@ -6,7 +6,9 @@ class Base < Grape::API
   # get 'cards/check' do
   #   { hello: 'world' }
   # end
-
+  helpers do
+    include CommonActions
+  end
   content_type :json, 'application/json'
   format :json
   params do
@@ -14,23 +16,38 @@ class Base < Grape::API
   end
   post 'cards/check' do
     @results = []
-    params[:cards].each do |card|
+    #:cardsは"H1 H13 H12 H11 H10"の組み合わせが３つ(例)
+    # cardsは"H1 H13 H12 H11 H10"(例)
+    params[:cards].each do |cards|
       result = {}
-      result[:card] = card
-      @results << card
+      result[:card] = cards
+      @cards = cards
+      @card = @cards.split(' ')
+      @suits = @cards.delete("^H|C|D|S| ").split(' ')
+      numbers_string = @cards.delete("^0-9| ").split(' ')
+      @numbers = numbers_string.map!(&:to_i)
+      @number_counter = []
+      for i in 0..@numbers.uniq.length-1
+        @number_counter[i] = @numbers.count(@numbers.uniq[i])
+      end
+      @sorted_number_counter = @number_counter.sort.reverse
+      @result = judge_cards(@sorted_number_counter, @suits, @numbers)
+      result[:judge] = @result
+      @results << result
     end
-    binding.pry
     if @results.present?
       {
           "result":
               @results.each do |result|
+                # binding.pry
                 {
-                    "card": result
+                    "card": result[:card],
+                    "hand": result[:judge]
                 }
               end,
       }
     end
-    # { cards: params[:cards]}
+    # binding.pry
   end
 
   # mount V1::Base
