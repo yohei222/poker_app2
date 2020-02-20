@@ -89,27 +89,5 @@ RSpec.describe PokerController, type: :controller do
         end
       end
     end
-    # context "with incorrect params" do
-    #   context "with no space" do
-    #     let(:cards){ "H1H2H3H4H5" }
-    #     it "should be an error" do
-    #       expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
-    #     end
-    #   end
-    #   context "with incorrect spaces" do
-    #     context "with 　" do
-    #       let(:cards){ "H1  C2 C3　C4 D13" }
-    #       it "should be an error" do
-    #         expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
-    #       end
-    #     end
-    #   end
-    #   context "with same cards" do
-    #     let(:cards){ "D1 D1 S1 S2 S3" }
-    #     it "should be an error" do
-    #       expect(flash.now[:alert]).to eq "※H,S,D,Cと1~13の数字の組み合わせで入力してください。カード間には半角スペースを入力してください。"
-    #     end
-    #   end
-    # end
   end
 end
