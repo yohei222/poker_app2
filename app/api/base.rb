@@ -4,7 +4,6 @@ class Base < Grape::API
   helpers do
     include CommonActions
   end
-  content_type :json, 'application/json'
   format :json
   params do
     requires :cards, type: Array

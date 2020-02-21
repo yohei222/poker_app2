@@ -12,9 +12,3 @@
  /*@import 'poker.scss';*/
  *= require_tree .
  *= require_self
-@import 'poker.css'
-
-.container{
-    margin:  0 auto;
-}
-
