@@ -1,9 +1,3 @@
-<%# flashはハッシュである
-flashの中身の例
- @flashes=
-  {"0"=>"4番目のカード指定文字が不正です。（H15） ",
-   "1"=>"5番目のカード指定文字が不正です。（H14） ",
-   "alert"=>"半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"}, %>
 <% flash.each do |message_type, message| %>
   <div class="alert alert-<%= message_type %>">
     <%= message %>
