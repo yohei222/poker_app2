@@ -11,7 +11,7 @@ module CommonActions
     cards.split(' ').each.with_index(1) do |card, i|
       correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
       if correct_card.nil?
-        error_messages[i] = "#{i}番目のカード指定文字が不正です。（#{card}） "
+        error_messages[i] = "#{i}番目のカード指定文字が不正です。（#{card})"
       end
     end
     if error_messages.present?

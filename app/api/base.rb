@@ -15,7 +15,7 @@ class Base < Grape::API
     #:cardsは"H1 H13 H12 H11 H10"の組み合わせが３つ(例)
     # cardsは"H1 H13 H12 H11 H10"(例)
     params[:cards].each do |cards|
-      errors = {}
+
       if correct_blank?(cards) == false
         error = {}
         error[:card] = cards
@@ -23,16 +23,26 @@ class Base < Grape::API
         @errors << error
         next
       end
-      error_messages = {}
-      # if correct_cards?(cards, error_messages) == false
-      #   error = {}
-      #   error_messages.values.each do |msg|
-      #     error[:card] = cards
-      #     error[:msg] = msg
-      #     @errors << error
-      #   end
-      #   next
-      # end
+
+      error_messages = []
+      if correct_cards?(cards, error_messages) == false
+        error_messages.delete(nil)
+        # error_messages
+        # => ["2番目のカード指定文字が不正です。（C15） ", "4番目のカード指定文字が不正です。（H14） ", "5番目のカード指定文字が不正です。（C22） "]
+        @error_messages = error_messages
+        @error_messages.each do |msg|
+          error = {}
+          error[:card] = cards
+          error[:msg] = msg
+          @errors << error
+        end
+        # binding.pry
+        # @errors
+        # => [{:card=>"H9 C15 S9 H14 C22", :msg=>"2番目のカード指定文字が不正です。（C15） "},
+        #     {:card=>"H9 C15 S9 H14 C22", :msg=>"4番目のカード指定文字が不正です。（H14） "},
+        #     {:card=>"H9 C15 S9 H14 C22", :msg=>"5番目のカード指定文字が不正です。（C22） "}]
+        next
+      end
 
       @card_for_validation = cards.split(' ')
       if unique_card?(@card_for_validation) == false
@@ -57,7 +67,7 @@ class Base < Grape::API
       end
       @sorted_number_counter = @number_counter.sort.reverse
       @result = judge_cards(@sorted_number_counter, @suits, @numbers)
-      result[:judge] = @result
+      result[:hand] = @result
       result[:rank] = evaluate_cards(@result)
       @results << result
     end
@@ -77,26 +87,13 @@ class Base < Grape::API
       end
     end
 
-    # if @results.present?
-    #   {
-    #       "result":
-    #           @results.each do |result|
-
-    #             {
-    #                 "card": result[:card],
-    #                 "hand": result[:judge],
-    #                 "best": result[:best]
-    #             }
-    #           end,
-    #   }
-    # end
     if @results.present? && @errors.present?
       {
           "result":
               @results.each do |result|
                 {
                     "card": result[:card],
-                    "hand": result[:judge],
+                    "hand": result[:hand],
                     "best": result[:best]
                 }
               end,
@@ -114,7 +111,7 @@ class Base < Grape::API
               @results.each do |result|
                 {
                     "card": result[:card],
-                    "hand": result[:judge],
+                    "hand": result[:hand],
                     "best": result[:best]
                 }
               end
