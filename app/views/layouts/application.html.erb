@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>PokerApp2</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
-
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
-
-  <body>
-    <%= yield %>
-  </body>
+<head>
+  <title>Poker App</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
+<body>
+<div class = "container">
+  <h1> Check a Porker Hand </h1>
+  <%= yield %>
+  <footer>©Copyright 2020 porkerhands All Rights Reserved.</footer>
+</div>
+</body>
 </html>
