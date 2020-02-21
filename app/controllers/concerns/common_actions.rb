@@ -100,6 +100,8 @@ module CommonActions
       rank = 8
     elsif result == "High Card"
       rank = 9
+    else
+      rank = nil
     end
   end
 
