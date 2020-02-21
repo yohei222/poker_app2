@@ -59,46 +59,46 @@ module CommonActions
 
   def judge_cards(sorted_number_counter, suits, numbers)
     if sorted_number_counter == [4,1]
-      judge = "Four Card"
+      judge = "フォー・オブ・ア・カインド"
     elsif sorted_number_counter == [3,2]
-      judge = "Full House"
+      judge = "フルハウス"
     elsif sorted_number_counter == [3,1,1]
-      judge = "Three Card"
+      judge = "スリー・オブ・ア・カインド"
     elsif sorted_number_counter == [2,2,1]
-      judge = "Two Pair"
+      judge = "ツーペア"
     elsif sorted_number_counter == [2,1,1,1]
-      judge = "One Pair"
+      judge = "ワンペア"
     else sorted_number_counter == [1,1,1,1,1]
       if straight?(numbers) && flush?(suits)
-        judge = "Straight Flush"
-        elsif straight?(numbers)
-        judge = "Straight"
+        judge = "ストレートフラッシュ"
         elsif flush?(suits)
-        judge = "Flush"
+        judge = "フラッシュ"
+        elsif straight?(numbers)
+        judge = "ストレート"
         else
-        judge = "High Card"
+        judge = "ハイカード"
       end
     end
   end
 
   def evaluate_cards(result)
-    if result == "Straight Flush"
+    if result == "ストレートフラッシュ"
       rank = 1
-    elsif result == "Four Card"
+    elsif result == "フォー・オブ・ア・カインド"
       rank = 2
-    elsif result == "Full House"
+    elsif result == "フルハウス"
       rank = 3
-    elsif result == "Flush"
+    elsif result == "フラッシュ"
       rank = 4
-    elsif result == "Straight"
+    elsif result == "ストレート"
       rank = 5
-    elsif result == "Three Card"
+    elsif result == "スリー・オブ・ア・カインド"
       rank = 6
-    elsif result == "Two Pair"
+    elsif result == "ツーペア"
       rank = 7
-    elsif result == "One Pair"
+    elsif result == "ワンペア"
       rank = 8
-    elsif result == "High Card"
+    elsif result == "ハイカード"
       rank = 9
     else
       rank = nil
