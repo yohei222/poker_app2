@@ -1,1 +1,1 @@
-ポーカーの手札を判定します！
+Check a Porker Hand

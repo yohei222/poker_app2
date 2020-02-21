@@ -67,7 +67,7 @@ class Base < Grape::API
       end
       @sorted_number_counter = @number_counter.sort.reverse
       @result = judge_cards(@sorted_number_counter, @suits, @numbers)
-      result[:judge] = @result
+      result[:hand] = @result
       result[:rank] = evaluate_cards(@result)
       @results << result
     end
@@ -93,7 +93,7 @@ class Base < Grape::API
               @results.each do |result|
                 {
                     "card": result[:card],
-                    "hand": result[:judge],
+                    "hand": result[:hand],
                     "best": result[:best]
                 }
               end,
@@ -111,7 +111,7 @@ class Base < Grape::API
               @results.each do |result|
                 {
                     "card": result[:card],
-                    "hand": result[:judge],
+                    "hand": result[:hand],
                     "best": result[:best]
                 }
               end
