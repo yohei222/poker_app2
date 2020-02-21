@@ -3,5 +3,5 @@ Rails.application.routes.draw do
   get 'poker' => 'poker#index'
   post 'poker' => 'poker#judge'
 
-  mount Base => '/api'
+  mount Base => 'api'
 end

@@ -62,4 +62,27 @@ module CommonActions
       end
     end
   end
+
+  def evaluate_cards(result)
+    if result == "Straight Flush"
+      rank = 1
+    elsif result == "Four Card"
+      rank = 2
+    elsif result == "Full House"
+      rank = 3
+    elsif result == "Flush"
+      rank = 4
+    elsif result == "Straight"
+      rank = 5
+    elsif result == "Three Card"
+      rank = 6
+    elsif result == "Two Pair"
+      rank = 7
+    elsif result == "One Pair"
+      rank = 8
+    elsif result == "High Card"
+      rank = 9
+    end
+  end
+
 end
