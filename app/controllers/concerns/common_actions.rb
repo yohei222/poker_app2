@@ -78,6 +78,7 @@ module CommonActions
         else
         judge = "ハイカード"
       end
+    judge
     end
   end
 
