@@ -79,7 +79,7 @@ RSpec.describe PokerController, type: :controller do
         let(:cards){ "D1 D2 S15 S2 S3" }
         it "should be an error" do
           expect(flash.now[:alert]).to eq "半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"
-          expect(flash.now[0]).to eq "3番目のカード指定文字が不正です。（S15） "
+          expect(flash.now[0]).to eq "3番目のカード指定文字が不正です。（S15)"
         end
       end
       context "unique_card?" do
