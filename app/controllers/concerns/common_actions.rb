@@ -1,10 +1,28 @@
 module CommonActions
   extend ActiveSupport::Concern
 
+  def get_card(cards)
+    cards.split(' ')
+  end
+
+  def get_suits(cards)
+    cards.delete("^H|C|D|S| ").split(' ')
+  end
+
+  def get_numbers(cards)
+    numbers_string = cards.delete("^0-9| ").split(' ')
+    return numbers_string.map!(&:to_i)
+  end
+
+  def number_counter(numbers, number_counter)
+    for i in 0..numbers.uniq.length-1
+      number_counter[i] = numbers.count(numbers.uniq[i])
+    end
+    return number_counter.sort.reverse
+  end
+
   def correct_blank?(cards)
     cards.match(/\A([^\s\p{blank}]+ ){4}[^\s\p{blank}]+$/).nil? ? false : true
-    # cards.match(/\A(\w\d+ ){4}(\w\d)+$/).nil? ? false : true
-    # cards.match(/\A([SHCD]([1][0-3]|[1-9])+ ){4}[SHCD]([1][0-3]|[1-9])$/).nil? ? false : true
   end
 
   def correct_cards?(cards, error_messages)

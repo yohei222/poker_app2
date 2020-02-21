@@ -7,7 +7,7 @@ class PokerController < ApplicationController
 
   def judge
     @cards = poker_params
-    @card = @cards.split(' ')
+    @card = get_card(@cards)
     if correct_blank?(@cards) == false
       flash.now[:alert] = '5つのカード指定文字を半角スペース区切りで入力してください。（例："S1 H3 D9 C13 S11"）'
       render "index" and return
@@ -22,14 +22,10 @@ class PokerController < ApplicationController
       flash.now[:alert] = "カードが重複しています。"
       render "index" and return
     end
-    @suits = @cards.delete("^H|C|D|S| ").split(' ')
-    numbers_string = @cards.delete("^0-9| ").split(' ')
-    @numbers = numbers_string.map!(&:to_i)
+    @suits = get_suits(@cards)
+    @numbers = get_numbers(@cards)
     @number_counter = []
-    for i in 0..@numbers.uniq.length-1
-      @number_counter[i] = @numbers.count(@numbers.uniq[i])
-    end
-    @sorted_number_counter = @number_counter.sort.reverse
+    @sorted_number_counter = number_counter(@numbers, @number_counter)
     @result = judge_cards(@sorted_number_counter, @suits, @numbers)
     render "index" and return
   end
