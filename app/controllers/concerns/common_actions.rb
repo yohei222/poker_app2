@@ -17,6 +17,7 @@ module CommonActions
   def number_counter(numbers, number_counter)
     for i in 0..numbers.uniq.length-1
       number_counter[i] = numbers.count(numbers.uniq[i])
+      # numbers.uniq => [10, 11, 12, 13, 1] numbers.uniq[0] = 10
     end
     return number_counter.sort.reverse
   end
@@ -30,6 +31,7 @@ module CommonActions
       correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
       if correct_card.nil?
         error_messages[i] = "#{i}番目のカード指定文字が不正です。（#{card})"
+        # error_messages => {5=>"5番目のカード指定文字が不正です。（H15)"}
       end
     end
     if error_messages.present?
@@ -40,6 +42,7 @@ module CommonActions
   end
 
   def error_sentences(error_messages)
+    # error_messages => {5=>"5番目のカード指定文字が不正です。（H15)"}
     error_messages.values.each_with_index do |error_message, i|
       flash.now[i] = error_message
     end
@@ -78,7 +81,6 @@ module CommonActions
         else
         judge = "ハイカード"
       end
-    judge
     end
   end
 

@@ -16,6 +16,7 @@ class PokerController < ApplicationController
     if correct_cards?(@cards, error_messages) == false
       error_sentences(error_messages)
       flash.now[:alert] = "半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"
+      # @flashes= {"0"=>"5番目のカード指定文字が不正です。（H15)", "alert"=>"半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"},
       render "index" and return
     end
     if unique_card?(@card) == false
@@ -24,6 +25,7 @@ class PokerController < ApplicationController
     end
     @suits = get_suits(@cards)
     @numbers = get_numbers(@cards)
+    # @numbers => [10, 11, 12, 13, 1]
     @number_counter = []
     @sorted_number_counter = number_counter(@numbers, @number_counter)
     @result = judge_cards(@sorted_number_counter, @suits, @numbers)

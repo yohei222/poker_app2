@@ -20,6 +20,10 @@ class Base < Grape::API
     if params[:cards].nil?
       params_error!
     end
+
+    # params[:cards]は5枚のカード複数個の組み合わせ
+    # cardsは五枚のカード1組
+
     params[:cards].each do |cards|
       if correct_blank?(cards) == false
         error = {}
