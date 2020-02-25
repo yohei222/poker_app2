@@ -3,10 +3,9 @@ require 'rails_helper'
 describe Base, :type => :request do
 
   before do
-    post '/api/v1/cards/check', :params => params.to_json, headers: headers
+    post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': content_type}
   end
 
-  let(:headers) { {'Content-Type': content_type} }
   let(:params) { {"cards": cards} }
   subject { response.status }
 
