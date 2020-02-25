@@ -5,9 +5,7 @@ describe Base, :type => :request do
   before do
     post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': content_type}
   end
-
   let(:params) { {"cards": cards} }
-  subject { response.status }
 
   context 'with correct cards' do
 
