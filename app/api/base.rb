@@ -90,7 +90,7 @@ class Base < Grape::API
                     "best": result[:best]
                 }
               end,
-          "errors":
+          "error":
               @errors.each do |error|
                 {
                     "card": error[:card],
@@ -111,7 +111,7 @@ class Base < Grape::API
       }
     elsif @errors.present?
       {
-          "errors":
+          "error":
               @errors.each do |error|
                 {
                     "card": error[:card],
