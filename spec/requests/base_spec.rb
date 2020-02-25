@@ -23,7 +23,7 @@ describe Base, :type => :request do
 
     it 'returns correct values' do
       res = JSON.parse(response.body)
-
+      expect(response).to be_success
       expect(res["result"][0]["card"]).to eq("H1 H13 H12 H11 H10")
       expect(res["result"][0]["hand"]).to eq("ストレートフラッシュ")
       expect(res["result"][0]["best"]).to be true
@@ -49,7 +49,7 @@ describe Base, :type => :request do
 
     it 'returns errors' do
       res = JSON.parse(response.body)
-
+      expect(response).to be_success
       expect(res["error"][0]["card"]).to eq("H1H13 H12 H11 H10")
       expect(res["error"][0]["msg"]).to eq("5つのカード指定文字を半角スペース区切りで入力してください。")
 
@@ -69,17 +69,19 @@ describe Base, :type => :request do
       it { is_expected.to eq 201 }
       it 'returns errors' do
         res = JSON.parse(response.body)
+        expect(response).to be_success
         expect(res["error"][0]["msg"]).to eq("5つのカード指定文字を半角スペース区切りで入力してください。")
       end
     end
 
     context 'when there is no data in params' do
       let(:content_type) {'application/json'}
-      let(:cards) { [" "] }
-      it { is_expected.to eq 201 }
+      let(:cards) { {} }
+      it { is_expected.to eq 400 }
       it 'returns errors' do
         res = JSON.parse(response.body)
-        expect(res["error"][0]["msg"]).to eq("5つのカード指定文字を半角スペース区切りで入力してください。")
+        expect(response).not_to be_success
+        expect(res["error"][0]["msg"]).to eq("不正なリクエストです。")
       end
     end
 
@@ -89,6 +91,7 @@ describe Base, :type => :request do
       it { is_expected.to eq 400 }
       it 'returns errors' do
         res = JSON.parse(response.body)
+        expect(response).not_to be_success
         expect(res["error"][0]["msg"]).to eq("不正なリクエストです。")
       end
     end
