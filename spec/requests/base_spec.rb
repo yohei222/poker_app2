@@ -3,13 +3,12 @@ require 'rails_helper'
 describe Base, :type => :request do
 
   before do
-    post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': content_type}
+    post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': 'application/json'}
   end
   let(:params) { {"cards": cards} }
 
   context 'with correct cards' do
 
-    let(:content_type) {'application/json'}
     let(:cards) { [
         "H1 H13 H12 H11 H10",
         "H9 C9 S9 H2 C2",
@@ -34,7 +33,6 @@ describe Base, :type => :request do
 
   context 'with incorrect cards' do
 
-    let(:content_type) {'application/json'}
     let(:cards) { [
         "H1H13 H12 H11 H10",
         "H9 C22 S9 H2 C2",
@@ -59,7 +57,6 @@ describe Base, :type => :request do
 
   context 'when there is a specific error' do
     context 'when there is an space' do
-      let(:content_type) {'application/json'}
       let(:cards) { [" "]}
       it 'returns errors' do
         res = JSON.parse(response.body)
@@ -70,7 +67,6 @@ describe Base, :type => :request do
     end
 
     context 'when there is no data in params' do
-      let(:content_type) {'application/json'}
       let(:cards) { {} }
       it 'returns errors' do
         res = JSON.parse(response.body)
@@ -81,7 +77,6 @@ describe Base, :type => :request do
     end
 
     context 'when there is no data in params' do
-      let(:content_type) {'application/json'}
       let(:cards) { [{ }] }
       it 'returns errors' do
         res = JSON.parse(response.body)
