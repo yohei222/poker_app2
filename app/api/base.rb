@@ -3,14 +3,23 @@ class Base < Grape::API
   version 'v1'
   helpers do
     include CommonActions
+    def params_error!
+      error!({"error":[{"msg":"不正なリクエストです。"}]}, 400, { 'Content-Type' => 'application/json' })
+    end
   end
   format :json
   params do
     requires :cards, type: Array
   end
+  rescue_from :all do |e|
+    params_error!
+  end
   post 'cards/check' do
     @errors = []
     @results = []
+    if params[:cards].nil?
+      params_error!
+    end
     params[:cards].each do |cards|
       if correct_blank?(cards) == false
         error = {}
