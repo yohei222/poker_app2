@@ -32,11 +32,17 @@ class Base < Grape::API
         @errors << error
         next
       end
+      #nextがあることで、if文に当てはまる五枚のcardsの処理は終わり、その後のメソッドの判定は表示されなくなる
+      #例えば、nextがないとカードが"H1 H1 H2 H3H4"であるとき、correct_blank?で引っかかった後に、unique_card?でも引っかかるが、実際に表示したいのは最初に引っかかったvalidationのみ
+      #→ここで、nextを入れることでvalidationに引っかかったcardsの処理を終了させることができる。
 
       error_messages = []
       if correct_cards?(cards, error_messages) == false
+        #error_messagesにnilが複数個入っている、なぜ？
         error_messages.delete(nil)
         @error_messages = error_messages
+        #@error_messages = error_messages.delete(nil)だと@error_messages => nilで返ってくる、なんで？
+        # @error_messages => ["4番目のカード指定文字が不正です。（H14)", "5番目のカード指定文字が不正です。（H14)"]
         @error_messages.each do |msg|
           error = {}
           error[:card] = cards
@@ -126,4 +132,5 @@ class Base < Grape::API
     end
   end
   # mount V1::Base
+  # なんでmountできない？
 end

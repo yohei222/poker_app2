@@ -15,6 +15,7 @@ describe Base, :type => :request do
         "C13 D12 C11 H8 H7"
     ] }
 
+    #JSON.parse() メソッドは文字列を JSON として解析し、文字列によって記述されている JavaScript の値やオブジェクトを構築する
     it 'returns correct values' do
       res = JSON.parse(response.body)
       expect(response.status).to eq 201
@@ -55,7 +56,6 @@ describe Base, :type => :request do
     end
   end
 
-  #JSON.parse() メソッドは文字列を JSON として解析し、文字列によって記述されている JavaScript の値やオブジェクトを構築します
   context 'when there is a specific error' do
     context 'when there is an space' do
       let(:cards) { [" "]}
