@@ -1,6 +1,6 @@
 require 'grape'
 class Base < Grape::API
-  version 'v1'
+  version 'v1', using: :path
   helpers do
     include CommonActions
     def params_error!
@@ -8,6 +8,7 @@ class Base < Grape::API
     end
   end
   format :json
+  desc 'API response'
   params do
     requires :cards, type: Array
   end
@@ -23,7 +24,6 @@ class Base < Grape::API
 
     # params[:cards]は5枚のカード複数個の組み合わせ
     # cardsは五枚のカード1組
-
     params[:cards].each do |cards|
       if correct_blank?(cards) == false
         error = {}

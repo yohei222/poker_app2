@@ -36,7 +36,6 @@ module API
               error[:msg] = msg
               @errors << error
             end
-            # binding.pry
             # @errors
             # => [{:card=>"H9 C15 S9 H14 C22", :msg=>"2番目のカード指定文字が不正です。（C15） "},
             #     {:card=>"H9 C15 S9 H14 C22", :msg=>"4番目のカード指定文字が不正です。（H14） "},
