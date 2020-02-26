@@ -8,10 +8,13 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
 </head>
 <body>
+
 <div class = "container">
-  <h1> Check a Poker Hand </h1>
+<div class = "container bg-light mt-3">
+  <h1 class="text-center pt-3 mb-4 text-info"> Check a Poker Hand </h1>
+
   <%= yield %>
-  <footer>©Copyright 2020 porkerhands All Rights Reserved.</footer>
+  <footer class="font-weight-lighter text-center pt-3 pb-2">©Copyright 2020 pokerhands All Rights Reserved.</footer>
 </div>
 </body>
 </html>
