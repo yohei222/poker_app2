@@ -1,4 +1,4 @@
-module CommonActions
+module PokerMethods
   extend ActiveSupport::Concern
 
   def get_card(cards)
@@ -24,43 +24,6 @@ module CommonActions
     #今回だと number_counter.sort.reverse = [2,1,1,1]
   end
 
-  def correct_blank?(cards)
-    #\Aはファイルの文頭、という意味
-    #\zはファイルの文末、という意味
-    #+は直前の文字の1回以上の繰り返し、という意味
-    #\A([^\s\p{blank}]+ は、(半角スペース、タブ、改行のどれか1文字(\s)あるいは全角スペース(\p{blank})以外の文字+半角スペース)
-    cards.match(/\A([^\s\p{blank}]+ ){4}[^\s\p{blank}]+\z/).nil? ? false : true
-  end
-
-  def correct_cards?(cards, error_messages)
-    #@cardsにするとviewに配列が帰ってきてしまうため、@array_cardsを用いる
-    # #@array_cards => ["S10", "H11", "H12", "H13", "H15"]
-    @array_cards = get_card(cards)
-    @array_cards.each.with_index(1) do |card, i|
-      correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
-      if correct_card.nil?
-        error_messages[i] = "#{i}番目のカード指定文字が不正です。（#{card})"
-        # error_messages => {5=>"5番目のカード指定文字が不正です。（H15)"}
-      end
-    end
-    if error_messages.present?
-      return false
-    else
-      return true
-    end
-  end
-
-  def insert_flash(error_messages)
-    # error_messages => {5=>"5番目のカード指定文字が不正です。（H15)"}
-    error_messages.values.each_with_index do |error_message, i|
-      flash.now[i] = error_message
-    end
-  end
-
-  def unique_card?(card)
-    card.uniq.length == 5 ? true : false
-  end
-
   def straight?(numbers)
     (numbers.sort[0] + 1 == numbers.sort[1] && numbers.sort[1] + 1 == numbers.sort[2] && numbers.sort[2] + 1 == numbers.sort[3] && numbers.sort[3] + 1 == numbers.sort[4]) || numbers.sort == [1,10,11,12,13] ? true : false
   end
@@ -81,15 +44,15 @@ module CommonActions
     elsif sorted_number_counter == [2,1,1,1]
       judge = "ワンペア"
     else sorted_number_counter == [1,1,1,1,1]
-      if straight?(numbers) && flush?(suits)
-        judge = "ストレートフラッシュ"
-        elsif flush?(suits)
-        judge = "フラッシュ"
-        elsif straight?(numbers)
-        judge = "ストレート"
-        else
-        judge = "ハイカード"
-      end
+    if straight?(numbers) && flush?(suits)
+      judge = "ストレートフラッシュ"
+    elsif flush?(suits)
+      judge = "フラッシュ"
+    elsif straight?(numbers)
+      judge = "ストレート"
+    else
+      judge = "ハイカード"
+    end
     end
   end
 
@@ -115,6 +78,16 @@ module CommonActions
     else
       rank = nil
     end
+  end
+
+
+  # @resultまで一気に返ってくるメソッドを作成する
+  def get_result(cards)
+    suits = get_suits(cards)
+    numbers = get_numbers(cards)
+    number_counter = []
+    sorted_number_counter = number_counter(numbers, number_counter)
+    @result = judge_cards(sorted_number_counter, suits, numbers)
   end
 
 end
