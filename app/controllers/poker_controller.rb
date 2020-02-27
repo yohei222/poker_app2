@@ -23,8 +23,7 @@ class PokerController < ApplicationController
       # @flashes= {"0"=>"5番目のカード指定文字が不正です。（H15)", "alert"=>"半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"}
       render "index" and return
     end
-    @card = get_card(@cards)
-    if unique_card?(@card) == false
+    if unique_card?(@cards) == false
       flash.now[:alert] = "カードが重複しています。"
       render "index" and return
     end

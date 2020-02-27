@@ -51,8 +51,7 @@ module V1
           next
         end
 
-        @card_for_validation = get_card(cards)
-        if unique_card?(@card_for_validation) == false
+        if unique_card?(cards) == false
           error = {}
           error[:card] = cards
           error[:msg] = 'カードが重複しています。'

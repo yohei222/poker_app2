@@ -35,7 +35,8 @@ module ErrorMethods
     end
   end
 
-  def unique_card?(card)
+  def unique_card?(cards)
+    card = cards.split(' ')
     card.uniq.length == 5 ? true : false
   end
 
