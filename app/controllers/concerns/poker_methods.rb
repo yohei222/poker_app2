@@ -52,6 +52,14 @@ module PokerMethods
     end
   end
 
+  def get_result(cards)
+    suits = get_suits(cards)
+    numbers = get_numbers(cards)
+    number_counter = []
+    sorted_number_counter = number_counter(numbers, number_counter)
+    @result = judge_cards(sorted_number_counter, suits, numbers)
+  end
+
   def evaluate_cards(result)
     if result == "ストレートフラッシュ"
       1
@@ -74,16 +82,6 @@ module PokerMethods
     else
       nil
     end
-  end
-
-
-  # @resultまで一気に返ってくるメソッドを作成する
-  def get_result(cards)
-    suits = get_suits(cards)
-    numbers = get_numbers(cards)
-    number_counter = []
-    sorted_number_counter = number_counter(numbers, number_counter)
-    @result = judge_cards(sorted_number_counter, suits, numbers)
   end
 
 end

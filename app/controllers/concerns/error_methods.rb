@@ -1,6 +1,9 @@
 module ErrorMethods
   extend ActiveSupport::Concern
-  include PokerMethods
+
+  def get_cards(cards)
+    cards.split(' ')
+  end
 
   def correct_blank?(cards)
     #\Aはファイルの文頭、という意味
@@ -13,7 +16,7 @@ module ErrorMethods
   def correct_cards?(cards, error_messages)
     #@cardsにするとviewに配列が帰ってきてしまうため、@array_cardsを用いる
     # #@array_cards => ["S10", "H11", "H12", "H13", "H15"]
-    @array_cards = cards.split(' ')
+    @array_cards = get_cards(cards)
     @array_cards.each.with_index(1) do |card, i|
       correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
       if correct_card.nil?
@@ -36,7 +39,7 @@ module ErrorMethods
   end
 
   def unique_card?(cards)
-    card = cards.split(' ')
+    card = get_cards(cards)
     card.uniq.length == 5 ? true : false
   end
 
