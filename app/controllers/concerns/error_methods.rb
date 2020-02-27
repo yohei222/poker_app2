@@ -13,7 +13,7 @@ module ErrorMethods
   def correct_cards?(cards, error_messages)
     #@cardsにするとviewに配列が帰ってきてしまうため、@array_cardsを用いる
     # #@array_cards => ["S10", "H11", "H12", "H13", "H15"]
-    @array_cards = get_card(cards)
+    @array_cards = cards.split(' ')
     @array_cards.each.with_index(1) do |card, i|
       correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
       if correct_card.nil?
