@@ -1,7 +1,8 @@
 module V1
   class Poker < Grape::API
     helpers do
-      include CommonActions
+      include ErrorMethods
+      include PokerMethods
       def params_error!
         error!({"error":[{"msg":"不正なリクエストです。"}]}, 400, { 'Content-Type' => 'application/json' })
       end
@@ -50,8 +51,7 @@ module V1
           next
         end
 
-        @card_for_validation = get_card(cards)
-        if unique_card?(@card_for_validation) == false
+        if unique_card?(cards) == false
           error = {}
           error[:card] = cards
           error[:msg] = 'カードが重複しています。'
@@ -61,13 +61,7 @@ module V1
 
         result = {}
         result[:card] = cards
-        @cards = cards
-        @card = get_card(@cards)
-        @suits = get_suits(@cards)
-        @numbers = get_numbers(@cards)
-        @number_counter = []
-        @sorted_number_counter = number_counter(@numbers, @number_counter)
-        @result = judge_cards(@sorted_number_counter, @suits, @numbers)
+        @result = get_result(cards)
         result[:hand] = @result
         result[:rank] = evaluate_cards(@result)
         @results << result

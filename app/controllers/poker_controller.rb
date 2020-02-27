@@ -1,10 +1,12 @@
 class PokerController < ApplicationController
-  include CommonActions
+  include ErrorMethods
+  include PokerMethods
 
   def index
 
   end
 
+  #ここのコード量が多すぎる→まとめる
   def judge
     #ここでの@cardsは入力された値（例："S1 H3 D9 C13 S11"）
     @cards = poker_params
@@ -21,19 +23,12 @@ class PokerController < ApplicationController
       # @flashes= {"0"=>"5番目のカード指定文字が不正です。（H15)", "alert"=>"半角英字大文字のスート（S,H,D,C）と数字（1〜13）の組み合わせでカードを指定してください。"}
       render "index" and return
     end
-    @card = get_card(@cards)
-    if unique_card?(@card) == false
+    if unique_card?(@cards) == false
       flash.now[:alert] = "カードが重複しています。"
       render "index" and return
     end
-    @suits = get_suits(@cards)
-    @numbers = get_numbers(@cards)
-    # @numbers => [10, 11, 12, 13, 1]
-    @number_counter = []
-    @sorted_number_counter = number_counter(@numbers, @number_counter)
-    @result = judge_cards(@sorted_number_counter, @suits, @numbers)
+    @result = get_result(@cards)
     render "index" and return
-    #renderを複数回呼び出すとエラーになるため、条件分岐した後「and return」で明示的に終了させる必要がある
   end
 
   private
