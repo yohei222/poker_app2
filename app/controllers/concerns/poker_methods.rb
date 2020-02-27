@@ -30,49 +30,49 @@ module PokerMethods
 
   def judge_cards(sorted_number_counter, suits, numbers)
     if sorted_number_counter == [4,1]
-      judge = "フォー・オブ・ア・カインド"
+      "フォー・オブ・ア・カインド"
     elsif sorted_number_counter == [3,2]
-      judge = "フルハウス"
+      "フルハウス"
     elsif sorted_number_counter == [3,1,1]
-      judge = "スリー・オブ・ア・カインド"
+      "スリー・オブ・ア・カインド"
     elsif sorted_number_counter == [2,2,1]
-      judge = "ツーペア"
+      "ツーペア"
     elsif sorted_number_counter == [2,1,1,1]
-      judge = "ワンペア"
+      "ワンペア"
     else sorted_number_counter == [1,1,1,1,1]
       if straight?(numbers) && flush?(suits)
-        judge = "ストレートフラッシュ"
+        "ストレートフラッシュ"
       elsif flush?(suits)
-        judge = "フラッシュ"
+        "フラッシュ"
       elsif straight?(numbers)
-        judge = "ストレート"
+        "ストレート"
       else
-        judge = "ハイカード"
+        "ハイカード"
       end
     end
   end
 
   def evaluate_cards(result)
     if result == "ストレートフラッシュ"
-      rank = 1
+      1
     elsif result == "フォー・オブ・ア・カインド"
-      rank = 2
+      2
     elsif result == "フルハウス"
-      rank = 3
+      3
     elsif result == "フラッシュ"
-      rank = 4
+      4
     elsif result == "ストレート"
-      rank = 5
+      5
     elsif result == "スリー・オブ・ア・カインド"
-      rank = 6
+      6
     elsif result == "ツーペア"
-      rank = 7
+      7
     elsif result == "ワンペア"
-      rank = 8
+      8
     elsif result == "ハイカード"
-      rank = 9
+      9
     else
-      rank = nil
+      nil
     end
   end
 
