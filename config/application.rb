@@ -16,6 +16,7 @@ module PokerApp2
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    #rails5系からはこれらのコードを付け加える必要なし
     # config.paths.add File.join('app', 'apis'), glob: File.join('**', '*.rb')
     # config.autoload_paths += Dir[Rails.root.join('app', 'apis', '*')]
   end

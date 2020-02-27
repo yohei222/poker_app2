@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Base, :type => :request do
+describe V1::Poker, :type => :request do
 
   before do
     post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': 'application/json'}
