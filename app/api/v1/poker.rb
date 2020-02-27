@@ -1,10 +1,10 @@
-module API
+# module API
   module V1
     class Poker < Grape::API
       helpers do
         include CommonActions
       end
-      # content_type :json, 'application/json'
+      content_type :json, 'application/json'
       format :json
       params do
         requires :cards, type: Array
@@ -130,4 +130,4 @@ module API
       end
     end
   end
-end
+# end
