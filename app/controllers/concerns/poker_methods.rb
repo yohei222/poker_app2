@@ -1,10 +1,6 @@
 module PokerMethods
   extend ActiveSupport::Concern
 
-  def get_card(cards)
-    cards.split(' ')
-  end
-
   def get_suits(cards)
     cards.delete("^H|C|D|S| ").split(' ')
   end
@@ -44,15 +40,15 @@ module PokerMethods
     elsif sorted_number_counter == [2,1,1,1]
       judge = "ワンペア"
     else sorted_number_counter == [1,1,1,1,1]
-    if straight?(numbers) && flush?(suits)
-      judge = "ストレートフラッシュ"
-    elsif flush?(suits)
-      judge = "フラッシュ"
-    elsif straight?(numbers)
-      judge = "ストレート"
-    else
-      judge = "ハイカード"
-    end
+      if straight?(numbers) && flush?(suits)
+        judge = "ストレートフラッシュ"
+      elsif flush?(suits)
+        judge = "フラッシュ"
+      elsif straight?(numbers)
+        judge = "ストレート"
+      else
+        judge = "ハイカード"
+      end
     end
   end
 
