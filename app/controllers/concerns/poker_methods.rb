@@ -11,14 +11,16 @@ module PokerMethods
   end
 
   def number_counter(numbers, number_counter)
-    #each文に変更
-    for i in 0..numbers.uniq.length-1
-      number_counter[i] = numbers.count(numbers.uniq[i])
-      # numbers = [10,10,11,12,13]であるとき
-      # numbers.uniq => [10, 11, 12, 13] numbers.uniq[0] = 10
+    # numbers = [10,10,11,12,13]であるとき
+    # numbers.uniq => [10, 11, 12, 13]
+    num_uniqs = numbers.uniq
+    i = 0
+    num_uniqs.each do |num|
+      number_counter[i] = numbers.count(num)
+      i += 1
     end
+    #number_coounterを小さい順に並び替えて、それをreverse(逆)にする
     return number_counter.sort.reverse
-    #今回だと number_counter.sort.reverse = [2,1,1,1]
   end
 
   def straight?(numbers)
