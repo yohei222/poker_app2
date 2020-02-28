@@ -24,7 +24,7 @@ module V1
       # params[:cards]は5枚のカード複数個の組み合わせ
       # cardsは五枚のカード1組
       params[:cards].each do |cards|
-        if correct_blank?(cards) == false
+        unless correct_blank?(cards)
           error = {}
           error[:card] = cards
           error[:msg] = '5つのカード指定文字を半角スペース区切りで入力してください。'
@@ -36,7 +36,7 @@ module V1
         end
 
         error_messages = []
-        if correct_cards?(cards, error_messages) == false
+        unless correct_cards?(cards, error_messages)
           #error_messagesにnilが複数個入っている、なぜ？
           error_messages.delete(nil)
           @error_messages = error_messages
@@ -51,7 +51,7 @@ module V1
           next
         end
 
-        if unique_card?(cards) == false
+        unless unique_card?(cards)
           error = {}
           error[:card] = cards
           error[:msg] = 'カードが重複しています。'
@@ -66,10 +66,10 @@ module V1
         result[:rank] = evaluate_cards(@result)
         @results << result
       end
-      #komenntokaku
       rank_numbers = []
-      for i in 0..@results.size-1
-        rank_numbers << @results[i][:rank]
+      #rank_numbersにevaluate_cardsの返り値である、強弱を表す数字を入れる
+      @results.each do |result|
+        rank_numbers << result[:rank]
       end
       @strongest_number = rank_numbers.min
       if @results.present?
