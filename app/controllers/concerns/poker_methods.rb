@@ -11,6 +11,7 @@ module PokerMethods
   end
 
   def number_counter(numbers, number_counter)
+    #each文に変更
     for i in 0..numbers.uniq.length-1
       number_counter[i] = numbers.count(numbers.uniq[i])
       # numbers = [10,10,11,12,13]であるとき

@@ -9,6 +9,7 @@ class PokerController < ApplicationController
   def judge
     #ここでの@cardsは入力された値（例："S1 H3 D9 C13 S11"）
     @cards = poker_params
+    # falseいらない,unless?
     if correct_blank?(@cards) == false
       flash.now[:alert] = '5つのカード指定文字を半角スペース区切りで入力してください。（例："S1 H3 D9 C13 S11"）'
       render "index" and return

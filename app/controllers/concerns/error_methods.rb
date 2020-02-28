@@ -33,6 +33,7 @@ module ErrorMethods
 
   def insert_flash(error_messages)
     # error_messages => {5=>"5番目のカード指定文字が不正です。（H15)"}
+    # viewに書くことが多い
     error_messages.values.each_with_index do |error_message, i|
       flash.now[i] = error_message
     end

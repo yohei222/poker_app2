@@ -66,6 +66,7 @@ module V1
         result[:rank] = evaluate_cards(@result)
         @results << result
       end
+      #komenntokaku
       rank_numbers = []
       for i in 0..@results.size-1
         rank_numbers << @results[i][:rank]
