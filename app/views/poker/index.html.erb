@@ -1,9 +1,8 @@
 <div class = "contents text-center">
   <div class = "form">
-<!--    text_field_tagを使う-->
     <%= form_tag("/poker", method: :post) do %>
-      <input type="text" name="cards" value="<%= @cards %>" placeholder="入力例: H1 S2 D3 C4 H5" size="30" class="bg-light">
-      <input type="submit" value="Check" class="text-white bg-success">
+      <%= text_field_tag :cards, @cards, class: "bg-light", placeholder: "C10 S11 D12 H13 S1" %>
+      <%= submit_tag "submit", class: "text-white bg-success" %>
     <% end %>
   </div>
   <div class="result mt-4">
