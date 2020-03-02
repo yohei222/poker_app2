@@ -75,6 +75,12 @@ RSpec.describe PokerController, type: :controller do
           expect(flash.now[:alert]).to eq '5つのカード指定文字を半角スペース区切りで入力してください。（例："S1 H3 D9 C13 S11"）'
         end
       end
+      context "correct_blank?" do
+        let(:cards){ "H1 H2 H3 H4 H5 " }
+        it "should be an error" do
+          expect(flash.now[:alert]).to eq '5つのカード指定文字を半角スペース区切りで入力してください。（例："S1 H3 D9 C13 S11"）'
+        end
+      end
       context "correct_cards?" do
         let(:cards){ "D1 D2 S15 S2 S3" }
         it "should be an error" do

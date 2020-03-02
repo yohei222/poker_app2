@@ -1,9 +1,5 @@
-module CommonActions
+module PokerMethods
   extend ActiveSupport::Concern
-
-  def get_card(cards)
-    cards.split(' ')
-  end
 
   def get_suits(cards)
     cards.delete("^H|C|D|S| ").split(' ')
@@ -15,38 +11,16 @@ module CommonActions
   end
 
   def number_counter(numbers, number_counter)
-    for i in 0..numbers.uniq.length-1
-      number_counter[i] = numbers.count(numbers.uniq[i])
+    # numbers = [10,10,11,12,13]であるとき
+    # numbers.uniq => [10, 11, 12, 13]
+    num_uniqs = numbers.uniq
+    i = 0
+    num_uniqs.each do |num|
+      number_counter[i] = numbers.count(num)
+      i += 1
     end
+    #number_coounterを小さい順に並び替えて、それをreverse(逆)にする
     return number_counter.sort.reverse
-  end
-
-  def correct_blank?(cards)
-    cards.match(/\A([^\s\p{blank}]+ ){4}[^\s\p{blank}]+$/).nil? ? false : true
-  end
-
-  def correct_cards?(cards, error_messages)
-    cards.split(' ').each.with_index(1) do |card, i|
-      correct_card = card.match(/\A[SHCD]([1][0-3]|[1-9])$/)
-      if correct_card.nil?
-        error_messages[i] = "#{i}番目のカード指定文字が不正です。（#{card})"
-      end
-    end
-    if error_messages.present?
-      return false
-    else
-      return true
-    end
-  end
-
-  def error_sentences(error_messages)
-    error_messages.values.each_with_index do |error_message, i|
-      flash.now[i] = error_message
-    end
-  end
-
-  def unique_card?(card)
-    card.uniq.length == 5 ? true : false
   end
 
   def straight?(numbers)
@@ -59,50 +33,57 @@ module CommonActions
 
   def judge_cards(sorted_number_counter, suits, numbers)
     if sorted_number_counter == [4,1]
-      judge = "フォー・オブ・ア・カインド"
+      "フォー・オブ・ア・カインド"
     elsif sorted_number_counter == [3,2]
-      judge = "フルハウス"
+      "フルハウス"
     elsif sorted_number_counter == [3,1,1]
-      judge = "スリー・オブ・ア・カインド"
+      "スリー・オブ・ア・カインド"
     elsif sorted_number_counter == [2,2,1]
-      judge = "ツーペア"
+      "ツーペア"
     elsif sorted_number_counter == [2,1,1,1]
-      judge = "ワンペア"
+      "ワンペア"
     else sorted_number_counter == [1,1,1,1,1]
       if straight?(numbers) && flush?(suits)
-        judge = "ストレートフラッシュ"
-        elsif flush?(suits)
-        judge = "フラッシュ"
-        elsif straight?(numbers)
-        judge = "ストレート"
-        else
-        judge = "ハイカード"
+        "ストレートフラッシュ"
+      elsif flush?(suits)
+        "フラッシュ"
+      elsif straight?(numbers)
+        "ストレート"
+      else
+        "ハイカード"
       end
-    judge
     end
+  end
+
+  def get_result(cards)
+    suits = get_suits(cards)
+    numbers = get_numbers(cards)
+    number_counter = []
+    sorted_number_counter = number_counter(numbers, number_counter)
+    @result = judge_cards(sorted_number_counter, suits, numbers)
   end
 
   def evaluate_cards(result)
     if result == "ストレートフラッシュ"
-      rank = 1
+      1
     elsif result == "フォー・オブ・ア・カインド"
-      rank = 2
+      2
     elsif result == "フルハウス"
-      rank = 3
+      3
     elsif result == "フラッシュ"
-      rank = 4
+      4
     elsif result == "ストレート"
-      rank = 5
+      5
     elsif result == "スリー・オブ・ア・カインド"
-      rank = 6
+      6
     elsif result == "ツーペア"
-      rank = 7
+      7
     elsif result == "ワンペア"
-      rank = 8
+      8
     elsif result == "ハイカード"
-      rank = 9
+      9
     else
-      rank = nil
+      nil
     end
   end
 

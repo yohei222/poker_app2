@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Base, :type => :request do
+describe V1::Poker, :type => :request do
 
   before do
     post '/api/v1/cards/check', :params => params.to_json, :headers => {'Content-Type': 'application/json'}
@@ -16,6 +16,7 @@ describe Base, :type => :request do
     ] }
 
     it 'returns correct values' do
+      #JSON.parse() メソッドは文字列を JSON として解析し、文字列によって記述されている JavaScript の値やオブジェクトを構築する
       res = JSON.parse(response.body)
       expect(response.status).to eq 201
       expect(response).to be_success
