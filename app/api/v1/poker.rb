@@ -38,11 +38,9 @@ module V1
         error_messages = []
         unless correct_cards?(cards, error_messages)
           #error_messagesにnilが複数個入っている、なぜ？
-          error_messages.delete(nil)
-          @error_messages = error_messages
-          # @error_messages = error_messages.delete(nil)だと@error_messages => nilで返ってくる、なんで？
+          # compactはnil以外の要素を集めるメソッド
           # @error_messages => ["4番目のカード指定文字が不正です。（H14)", "5番目のカード指定文字が不正です。（H14)"]
-          @error_messages.each do |msg|
+          error_messages.compact.each do |msg|
             error = {}
             error[:card] = cards
             error[:msg] = msg
